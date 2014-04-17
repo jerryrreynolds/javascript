@@ -1,0 +1,823 @@
+$(document).ready(function(){
+  if ((window.innerWidth <=499))  {
+    $('.plan-unit-on').hide();
+	$('.plan-unit-invite').hide();
+	$('.plan-unit-title').hide();
+	$('.plan-btnmanage').hide();
+	$(".plan-unit").click(function () {
+	  var pdir = $(this).attr("value");
+	  $('.plan-unit-on').hide();
+	  $('.plan-unit-invite').hide();
+	  $('.plan-unit-starting').show();
+	  $('.plan-unit-title').hide();
+	  $('.plan-btnmanage').hide();
+	  $('#plnuniton-'+pdir).animate({height:'show'}, 200);
+	  $('#plnunitinvite-'+pdir).animate({height:'show'}, 200);
+	  $('#plntitle-'+pdir).delay(85).animate({height:'show'}, 40);
+	  $('#plnstart-'+pdir).delay(85).animate({height:'hide'}, 60);
+	  $('#plnunitman-'+pdir).delay(200).animate({height:'show'}, 0);
+	  $("#plnuniton-"+pdir).click(function () {
+        setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pdir);},0);
+      });
+	  $('#acceptPlanInvite-'+pdir).click(function(e) {
+		e.preventDefault();
+        var valid = '';
+        var id = $('form #id').val();
+		var pid = $('form #pid').val();
+		var uEnticed = $('form #uEnticed').val();
+	    var nHap = $('form #nHap').val();
+		if (id = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (pid = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (uEnticed != 'http://') {$('#plnunitresponse-'+pdir).hide();}
+	    if (nHap != '') {$('#plnunitresponse-'+pdir).hide();}
+	    if (valid != '') {$('#plnunitresponse-'+pdir).removeClass().addClass('error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+        else {
+          
+		  $('#acceptPlanInvite-'+pdir).hide();
+		  $('#denyPlanInvite-'+pdir).hide();
+		  $('#plnunitresponse-'+pdir).html('<img src="../img/gif/loader-gray.gif" class="user-message-responseicon"/>').slideDown(20);	
+								
+	      var acceptPlanForm = $('#acceptPlanForm-'+pdir).serialize();
+	      submitacceptPlan(acceptPlanForm);
+        }
+      });
+      function submitacceptPlan(acceptPlanForm) {
+	    $.ajax({	
+	      type: 'POST',
+	      url: '../php/planaccept.php',		
+	      data: acceptPlanForm,
+	      dataType: 'json',
+	      cache: false,
+          timeout: 16000,
+          success: function(data) { 
+	        $('#plnunitresponse-'+pdir).removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).slideDown(200);;	
+	        if ($('#plnunitresponse-'+pdir).hasClass('error')) {
+		      $('#plnunitresponse-'+pdir).hide();
+			  $('#acceptPlanInvite-'+pdir).show();
+		      $('#denyPlanInvite-'+pdir).show();
+	        } 
+	        if ($('#plnunitresponse-'+pdir).hasClass('success')) {
+			  setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pdir);},0);
+	        } 
+	      },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {$('#plnunitresponse-'+pdir).hide();}
+        });	
+      };
+	  $('#denyPlanInvite-'+pdir).click(function(e) {
+		e.preventDefault();
+        var valid = '';
+        var id = $('form #id').val();
+		var pid = $('form #pid').val();
+		var uEnticed = $('form #uEnticed').val();
+	    var nHap = $('form #nHap').val();
+		if (id = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (pid = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (uEnticed != 'http://') {$('#plnunitresponse-'+pdir).hide();}
+	    if (nHap != '') {$('#plnunitresponse-'+pdir).hide();}
+	    if (valid != '') {$('#plnunitresponse-'+pdir).removeClass().addClass('error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+        else {
+          
+		  $('#acceptPlanInvite-'+pdir).hide();
+		  $('#denyPlanInvite-'+pdir).hide();
+		  $('#plnunitresponse-'+pdir).html('<img src="../img/gif/loader-gray.gif" class="user-message-responseicon"/>').slideDown(20);	
+								
+	      var denyPlanForm = $('#denyPlanForm-'+pdir).serialize();
+	      submitdenyPlan(denyPlanForm);
+        }
+      });
+      function submitdenyPlan(denyPlanForm) {
+	    $.ajax({	
+	      type: 'POST',
+	      url: '../php/plandeny.php',		
+	      data: denyPlanForm,
+	      dataType: 'json',
+	      cache: false,
+          timeout: 16000,
+          success: function(data) { 
+	        $('#plnunitresponse-'+pdir).removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).slideDown(200);;	
+	        if ($('#plnunitresponse-'+pdir).hasClass('error')) {
+		      $('#plnunitresponse-'+pdir).hide();
+			  $('#acceptPlanInvite-'+pdir).show();
+		      $('#denyPlanInvite-'+pdir).show();
+	        } 
+	        if ($('#plnunitresponse-'+pdir).hasClass('success')) {
+			  $('#pln-'+pdir).hide();
+	        } 
+	      },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {$('#plnunitresponse-'+pdir).hide();}
+        });	
+      };
+    });
+	$(".plan-unit-blank").click(function () {
+	  var pdir = $(this).attr("value");
+	  $('.plan-unit-on').hide();
+	  $('.plan-unit-invite').hide();
+	  $('.plan-unit-starting').show();
+	  $('.plan-unit-title').hide();
+	  $('.plan-btnmanage').hide();
+	  $('#plnuniton-'+pdir).animate({height:'show'}, 200);
+	  $('#plnunitinvite-'+pdir).animate({height:'show'}, 200);
+	  $('#plntitle-'+pdir).delay(85).animate({height:'show'}, 40);
+	  $('#plnstart-'+pdir).delay(85).animate({height:'hide'}, 60);
+	  $('#plnunitman-'+pdir).delay(200).animate({height:'show'}, 0);
+	  $("#plnuniton-"+pdir).click(function () {
+        setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pdir);},0);
+      });
+	  $('#acceptPlanInvite-'+pdir).click(function(e) {
+		e.preventDefault();
+        var valid = '';
+        var id = $('form #id').val();
+		var pid = $('form #pid').val();
+		var uEnticed = $('form #uEnticed').val();
+	    var nHap = $('form #nHap').val();
+		if (id = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (pid = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (uEnticed != 'http://') {$('#plnunitresponse-'+pdir).hide();}
+	    if (nHap != '') {$('#plnunitresponse-'+pdir).hide();}
+	    if (valid != '') {$('#plnunitresponse-'+pdir).removeClass().addClass('error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+        else {
+          
+		  $('#acceptPlanInvite-'+pdir).hide();
+		  $('#denyPlanInvite-'+pdir).hide();
+		  $('#plnunitresponse-'+pdir).html('<img src="../img/gif/loader-gray.gif" class="user-message-responseicon"/>').slideDown(20);	
+								
+	      var acceptPlanForm = $('#acceptPlanForm-'+pdir).serialize();
+	      submitacceptPlan(acceptPlanForm);
+        }
+      });
+      function submitacceptPlan(acceptPlanForm) {
+	    $.ajax({	
+	      type: 'POST',
+	      url: '../php/planaccept.php',		
+	      data: acceptPlanForm,
+	      dataType: 'json',
+	      cache: false,
+          timeout: 16000,
+          success: function(data) { 
+	        $('#plnunitresponse-'+pdir).removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).slideDown(200);;	
+	        if ($('#plnunitresponse-'+pdir).hasClass('error')) {
+		      $('#plnunitresponse-'+pdir).hide();
+			  $('#acceptPlanInvite-'+pdir).show();
+		      $('#denyPlanInvite-'+pdir).show();
+	        } 
+	        if ($('#plnunitresponse-'+pdir).hasClass('success')) {
+			  setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pdir);},0);
+	        } 
+	      },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {$('#plnunitresponse-'+pdir).hide();}
+        });	
+      };
+	  $('#denyPlanInvite-'+pdir).click(function(e) {
+		e.preventDefault();
+        var valid = '';
+        var id = $('form #id').val();
+		var pid = $('form #pid').val();
+		var uEnticed = $('form #uEnticed').val();
+	    var nHap = $('form #nHap').val();
+		if (id = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (pid = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (uEnticed != 'http://') {$('#plnunitresponse-'+pdir).hide();}
+	    if (nHap != '') {$('#plnunitresponse-'+pdir).hide();}
+	    if (valid != '') {$('#plnunitresponse-'+pdir).removeClass().addClass('error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+        else {
+          
+		  $('#acceptPlanInvite-'+pdir).hide();
+		  $('#denyPlanInvite-'+pdir).hide();
+		  $('#plnunitresponse-'+pdir).html('<img src="../img/gif/loader-gray.gif" class="user-message-responseicon"/>').slideDown(20);	
+								
+	      var denyPlanForm = $('#denyPlanForm-'+pdir).serialize();
+	      submitdenyPlan(denyPlanForm);
+        }
+      });
+      function submitdenyPlan(denyPlanForm) {
+	    $.ajax({	
+	      type: 'POST',
+	      url: '../php/plandeny.php',		
+	      data: denyPlanForm,
+	      dataType: 'json',
+	      cache: false,
+          timeout: 16000,
+          success: function(data) { 
+	        $('#plnunitresponse-'+pdir).removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).slideDown(200);;	
+	        if ($('#plnunitresponse-'+pdir).hasClass('error')) {
+		      $('#plnunitresponse-'+pdir).hide();
+			  $('#acceptPlanInvite-'+pdir).show();
+		      $('#denyPlanInvite-'+pdir).show();
+	        } 
+	        if ($('#plnunitresponse-'+pdir).hasClass('success')) {
+			  $('#pln-'+pdir).hide();
+	        } 
+	      },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {$('#plnunitresponse-'+pdir).hide();}
+        });	
+      };
+    });
+  };
+ 
+  if ((window.innerWidth >=500))  {
+	$('.plan-unit-on').hide();
+	$('.plan-unit-invite').hide();
+	$('.plan-unit-title').hide();
+	$('.plan-btnmanage').hide();
+    $(".plan-unitfrm").hover(function(){
+	  var pdir = $(this).attr("value");
+      $('#plnuniton-'+pdir).animate({height:'show'}, 300);
+	  $('#plnunitinvite-'+pdir).animate({height:'show'}, 300);
+	  $('#plntitle-'+pdir).delay(175).animate({height:'show'}, 70);
+	  $('#plnstart-'+pdir).delay(175).animate({height:'hide'}, 70);
+	  $('#plnunitman-'+pdir).delay(200).animate({height:'show'}, 0);
+	  $('#plnuniton-'+pdir).click(function () {
+	    $('#plnuniton-'+pdir).show();
+	    $('#plntitle-'+pdir).show();
+	    $('#plnstart-'+pdir).hide();
+	    setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pdir);},0);
+      });
+	  $('#acceptPlanInvite-'+pdir).click(function(e) {
+		e.preventDefault();
+        var valid = '';
+        var id = $('form #id').val();
+		var pid = $('form #pid').val();
+		var uEnticed = $('form #uEnticed').val();
+	    var nHap = $('form #nHap').val();
+		if (id = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (pid = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (uEnticed != 'http://') {$('#plnunitresponse-'+pdir).hide();}
+	    if (nHap != '') {$('#plnunitresponse-'+pdir).hide();}
+	    if (valid != '') {$('#plnunitresponse-'+pdir).removeClass().addClass('error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+        else {
+          
+		  $('#acceptPlanInvite-'+pdir).hide();
+		  $('#denyPlanInvite-'+pdir).hide();
+		  $('#plnunitresponse-'+pdir).html('<img src="../img/gif/loader-gray.gif" class="user-message-responseicon"/>').slideDown(20);	
+								
+	      var acceptPlanForm = $('#acceptPlanForm-'+pdir).serialize();
+	      submitacceptPlan(acceptPlanForm);
+        }
+      });
+      function submitacceptPlan(acceptPlanForm) {
+	    $.ajax({	
+	      type: 'POST',
+	      url: '../php/planaccept.php',		
+	      data: acceptPlanForm,
+	      dataType: 'json',
+	      cache: false,
+          timeout: 16000,
+          success: function(data) { 
+	        $('#plnunitresponse-'+pdir).removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).slideDown(200);;	
+	        if ($('#plnunitresponse-'+pdir).hasClass('error')) {
+		      $('#plnunitresponse-'+pdir).hide();
+			  $('#acceptPlanInvite-'+pdir).show();
+		      $('#denyPlanInvite-'+pdir).show();
+	        } 
+	        if ($('#plnunitresponse-'+pdir).hasClass('success')) {
+			  setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pdir);},0);
+	        } 
+	      },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {$('#plnunitresponse-'+pdir).hide();}
+        });	
+      };
+	  $('#denyPlanInvite-'+pdir).click(function(e) {
+		e.preventDefault();
+        var valid = '';
+        var id = $('form #id').val();
+		var pid = $('form #pid').val();
+		var uEnticed = $('form #uEnticed').val();
+	    var nHap = $('form #nHap').val();
+		if (id = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (pid = '') {$('#plnunitresponse-'+pdir).hide();}
+		if (uEnticed != 'http://') {$('#plnunitresponse-'+pdir).hide();}
+	    if (nHap != '') {$('#plnunitresponse-'+pdir).hide();}
+	    if (valid != '') {$('#plnunitresponse-'+pdir).removeClass().addClass('error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+        else {
+          
+		  $('#acceptPlanInvite-'+pdir).hide();
+		  $('#denyPlanInvite-'+pdir).hide();
+		  $('#plnunitresponse-'+pdir).html('<img src="../img/gif/loader-gray.gif" class="user-message-responseicon"/>').slideDown(20);	
+								
+	      var denyPlanForm = $('#denyPlanForm-'+pdir).serialize();
+	      submitdenyPlan(denyPlanForm);
+        }
+      });
+      function submitdenyPlan(denyPlanForm) {
+	    $.ajax({	
+	      type: 'POST',
+	      url: '../php/plandeny.php',		
+	      data: denyPlanForm,
+	      dataType: 'json',
+	      cache: false,
+          timeout: 16000,
+          success: function(data) { 
+	        $('#plnunitresponse-'+pdir).removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).slideDown(200);;	
+	        if ($('#plnunitresponse-'+pdir).hasClass('error')) {
+		      $('#plnunitresponse-'+pdir).hide();
+			  $('#acceptPlanInvite-'+pdir).show();
+		      $('#denyPlanInvite-'+pdir).show();
+	        } 
+	        if ($('#plnunitresponse-'+pdir).hasClass('success')) {
+			  $('#pln-'+pdir).hide();
+	        } 
+	      },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {$('#plnunitresponse-'+pdir).hide();}
+        });	
+      };
+	  return false;
+    },function(){
+	  var pdir = $(this).attr("value");
+      $('#plnstart-'+pdir).delay(100).animate({height:'show'}, 300);
+	  $('#plnunitman-'+pdir).delay(50).animate({height:'hide'}, 70);
+	  $('#plntitle-'+pdir).delay(175).animate({height:'hide'}, 70);
+	  $('#plnuniton-'+pdir).animate({height:'hide'}, 300);
+	  $('#plnunitinvite-'+pdir).animate({height:'hide'}, 300);
+	  return false;
+    });
+  };
+
+  $('#body-plan-invite').hide();
+  $('#body-plan-new').hide();
+//Open My Friends
+  $("#nav-plan-my").hover(function(){
+    $('#nav-plan-my').removeClass('plan-nav-item').addClass('plan-nav-item-on');
+	return false;
+  },function(){
+	$('#nav-plan-my').removeClass('plan-nav-item-on').addClass('plan-nav-item');
+	return false;
+  });
+  $("#nav-plan-my").click(function () {
+    $('.plan-body').hide();
+	$('#body-plan-my').show();
+  });
+  
+//Open My Friends
+  $("#nav-plan-invite").hover(function(){
+    $('#nav-plan-invite').removeClass('plan-nav-item').addClass('plan-nav-item-on');
+	return false;
+  },function(){
+	$('#nav-plan-invite').removeClass('plan-nav-item-on').addClass('plan-nav-item');
+	return false;
+  });
+  $("#nav-plan-invite").click(function () {
+    $('.plan-body').hide();
+	$('#body-plan-invite').show();
+  });
+
+//Open My Friends
+  $("#nav-plan-new").hover(function(){
+    $('#nav-plan-new').removeClass('plan-nav-item').addClass('plan-nav-item-on');
+	return false;
+  },function(){
+	$('#nav-plan-new').removeClass('plan-nav-item-on').addClass('plan-nav-item');
+	return false;
+  });
+  $("#nav-plan-new").click(function () {
+    $('.plan-body').hide();
+	$('#body-plan-new').show();
+  });  
+  
+  
+  $('#create-submitResponse').hide();
+  $('#create-submitResponse-fix').hide();
+  $('#createPlanSubmit').click(function(e) {
+    $('#create-submitResponse-fix').slideUp(100);
+	e.preventDefault();
+    var valid = '';
+    var id = $('form #id').val();
+	var ptitle = $('form #ptitle').val();
+	var plocation = $('form #plocation').val();
+	var psdmo = $('form #pstartdatemo').val();
+	var psdday = $('form #pstartdateday').val();
+	var psdyr = $('form #pstartdateyr').val();
+	var plength = $('form #plength').val();
+	var ptype = $('form #ptype').val();
+    var uEnticed = $('form #uEnticed').val();
+	var nHap = $('form #nHap').val();
+    if (id = '') {valid = 'Please Login</br>';}
+	if (ptitle = '' || ptitle.length <= 1) {valid += 'Please give your plan a name.</br>';}
+	if (plocation = '' || plocation.length <= 1) {valid += 'Please type the location you are visiting.<br>';}
+	if (psdmo = '' || psdmo.length <= 1) {valid += 'Please select the month your trip begins.</br>';}
+	if (psdday = '' || psdday.length <= 1) {valid += 'Please select the day your trip begins.</br>';}
+	if (psdyr = '' || psdyr.length <= 1) {valid += 'Please select the year your trip begins.</br>';}
+	if (plength = '' || plength.length <= 1) {valid += 'Please select the length of your trip in days.</br>';}
+	if (ptype = '' || ptype.length <= 1) {valid += 'Please select a trip type.</br>';}
+	if (uEnticed != 'http://') {valid += 'ERROR 100: You\'ve attempted an illegal action.</br>';}
+	if (nHap != '') {valid += 'ERROR 101: You\'ve attempted an illegal action.</br>';}
+	if (valid != '') {$('#create-submitResponse-fix').removeClass().addClass('plan-body-error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+    else {$('#create-submitResponse').html('<img src="../img/gif/loader-light.gif" class="plan-body-responseicon"/>').slideDown(20);										
+	  var createPlanForm = $('#createPlanForm').serialize();
+	  submitcreatePlan(createPlanForm);
+    }
+  });
+  function submitcreatePlan(createPlanForm) {
+    $.ajax({	
+	  type: 'POST',
+	  url: '../php/plancreate.php',		
+	  data: createPlanForm,
+	  dataType: 'json',
+	  cache: false,
+      timeout: 16000,
+      success: function(data) { 
+	    var pdir = data.pdir;
+		$('#create-submitResponse-fix').removeClass().addClass((data.error === true) ? 'plan-body-error' : 'plan-body-success').html(data.msg).slideDown(200);	
+	    if ($('#create-submitResponse-fix').hasClass('plan-body-error')) {
+		  $('#create-submitResponse').hide();
+	    } 
+	    if ($('#create-submitResponse-fix').hasClass('plan-body-success')) {
+		  $('#create-submitResponse').hide();
+		  $('#create-submitResponse-fix').delay(1400).animate({height:'hide'}, 200);
+		  setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pdir);},0);
+	    } 
+	  },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {$('#create-submitResponse').hide(); $('#create-submitResponse-fix').removeClass().addClass('plan-body-error').html('There was an<strong> ' + errorThrown + '</strong> error due to a<strong> ' + textStatus + '</strong> condition.').fadeIn('fast');}
+    });	
+  };
+
+//Edit Plan
+  $("#p-edit-plan").hover(function(){
+    $('#p-edit-plan').removeClass('p-bodyunit-head-icon').addClass('p-bodyunit-head-icon-on');
+	$('#p-edithead-plan').removeClass('p-bodyunit-head-tag').addClass('p-bodyunit-head-tag-on');
+	return false;
+  },function(){
+	$('#p-edithead-plan').removeClass('p-bodyunit-head-tag-on').addClass('p-bodyunit-head-tag');
+	$('#p-edit-plan').removeClass('p-bodyunit-head-icon-on').addClass('p-bodyunit-head-icon');
+	return false;
+  }).click(function(){
+	var pedir = $(this).attr("value");
+    setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pedir);},0);  
+  }); 
+  
+//Edit Trip Friends
+  $("#p-edit-friends").hover(function(){
+    $('#p-edit-friends').removeClass('p-bodyunit-head-icon').addClass('p-bodyunit-head-icon-on');
+	$('#p-edithead-friends').removeClass('p-bodyunit-head-tagsm').addClass('p-bodyunit-head-tagsm-on');
+	return false;
+  },function(){
+	$('#p-edithead-friends').removeClass('p-bodyunit-head-tagsm-on').addClass('p-bodyunit-head-tagsm');
+	$('#p-edit-friends').removeClass('p-bodyunit-head-icon-on').addClass('p-bodyunit-head-icon');
+	return false;
+  }).click(function(){
+	var pedir = $(this).attr("value");
+    setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pedir);},0);  
+  }); 
+  
+//Add New Note
+  $("#nav-plan-addnote").hover(function(){
+    $('#nav-plan-addnote').removeClass('plan-nav-item').addClass('plan-nav-item-on');
+	return false;
+  },function(){
+	$('#nav-plan-addnote').removeClass('plan-nav-item-on').addClass('plan-nav-item');
+	return false;
+  }).click(function () {
+    var pedir = $(this).attr("value");
+    setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pedir);},0);  
+  });  
+
+//Add Booking
+  $("#nav-plan-addbook").hover(function(){
+    $('#nav-plan-addbook').removeClass('plan-nav-item').addClass('plan-nav-item-on');
+	return false;
+  },function(){
+	$('#nav-plan-addbook').removeClass('plan-nav-item-on').addClass('plan-nav-item');
+	return false;
+  }).click(function () {
+    var pedir = $(this).attr("value");
+    setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pedir);},0);  
+  });  
+  
+//Open Plan Post
+  $('.manplane').hide();
+  $(".headplane").hover(function(){
+	var secdir = $(this).attr("value");
+    $('#pbodyu-'+secdir).removeClass('p-bodyunit').addClass('p-bodyunit-on');
+	return false;
+  },function(){
+	var secdir = $(this).attr("value");
+	$('#pbodyu-'+secdir).removeClass('p-bodyunit-on').addClass('p-bodyunit');
+	return false;
+  }).click(function () {
+    var secdir = $(this).attr("value");
+    $('.manplane').hide();
+    $('#manplan-'+secdir).animate({height:'show'}, 200);
+  }); 
+  
+//Delete Post
+  $('.pprequest').hide();
+  $(".p-bodyunit-delete").click(function(e) {
+	e.preventDefault();
+	var secdir = $(this).attr("pnid");
+    var valid = '';
+    var id = $('form #puid').val();
+    var uEnticed = $('form #uEnticed').val();
+	var nHap = $('form #nHap').val();
+    if (puid = '') {valid = 'Please Login</br>';}
+	if (uEnticed != 'http://') {valid += 'ERROR 100: You\'ve attempted an illegal action.</br>';}
+	if (nHap != '') {valid += 'ERROR 101: You\'ve attempted an illegal action.</br>';}
+	if (valid != '') {$('#pnoteresponse-'+secdir).removeClass().addClass('plan-body-error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+    else {$('#pman-edit-'+secdir).hide(); $('#pnoteresponse-'+secdir).html('<img src="../img/gif/loader-light.gif" class="plan-body-responseicon"/>').slideDown(20);										
+	  var deletePostForm = $('#deletePostForm-'+secdir).serialize();
+	  submitdeletePost(deletePostForm);
+    }
+    function submitdeletePost(deletePostForm) {
+      $.ajax({	
+	    type: 'POST',
+	    url: '../php/plannoteremove.php',		
+	    data: deletePostForm,
+	    dataType: 'json',
+	    cache: false,
+        timeout: 8000,
+        success: function(data) { 
+	      var pdir = data.pdir;
+		  $('#pnoteresponse-'+secdir).removeClass().addClass((data.error === true) ? 'plan-body-error' : 'plan-body-success').html(data.msg).slideDown(200);	
+	      if ($('#pnoteresponse-'+secdir).hasClass('plan-body-error')) {
+		    
+	      } 
+	      if ($('#pnoteresponse-'+secdir).hasClass('plan-body-success')) {
+		    $('#pnoteresponse-'+secdir).hide();
+		    $('#pbodyu-'+secdir).hide();
+	      } 
+	    },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {$('#pnoteresponse-'+secdir).removeClass().addClass('plan-body-error').html('There was an<strong> ' + errorThrown + '</strong> error due to a<strong> ' + textStatus + '</strong> condition.').fadeIn('fast');}
+      });	
+    };
+  });
+
+//Edit Post
+  $(".p-bodyunit-manage-edititem").hover(function(){
+	var editdir = $(this).attr("value");
+    $('#pman-edit-'+editdir).removeClass('p-bodyunit-manage-edititem').addClass('p-bodyunit-manage-edititem-on');
+	return false;
+  },function(){
+	var editdir = $(this).attr("value");
+	$('#pman-edit-'+editdir).removeClass('p-bodyunit-manage-edititem-on').addClass('p-bodyunit-manage-edititem');
+	return false;
+  }).click(function () {
+    var editdir = $(this).attr("value");
+	setTimeout(function(){window.location.assign("http://plandree.com/planner/editnote.php?pn="+editdir);},0);
+  });
+  
+  $('#update-submitResponse').hide();
+  $('#update-submitResponse-fix').hide();
+  $('#updatePlanSubmit').click(function(e) {
+    $('#update-submitResponse-fix').slideUp(100);
+	e.preventDefault();
+    var valid = '';
+    var id = $('form #id').val();
+	var pid = $('form #pid').val();
+	var ptitle = $('form #ptitle').val();
+	var plocation = $('form #plocation').val();
+	var psdmo = $('form #pstartdatemo').val();
+	var psdday = $('form #pstartdateday').val();
+	var psdyr = $('form #pstartdateyr').val();
+	var plength = $('form #plength').val();
+	var ptype = $('form #ptype').val();
+    var uEnticed = $('form #uEnticed').val();
+	var nHap = $('form #nHap').val();
+    if (id = '') {valid = 'Please Login</br>';}
+	if (pid = '') {valid += 'Please select a plan.</br>';}
+	if (ptitle = '' || ptitle.length <= 1) {valid += 'Please give your plan a name.</br>';}
+	if (plocation = '' || plocation.length <= 1) {valid += 'Please type the location you are visiting.<br>';}
+	if (psdmo = '' || psdmo.length <= 1) {valid += 'Please select the month your trip begins.</br>';}
+	if (psdday = '' || psdday.length <= 1) {valid += 'Please select the day your trip begins.</br>';}
+	if (psdyr = '' || psdyr.length <= 1) {valid += 'Please select the year your trip begins.</br>';}
+	if (plength = '' || plength.length <= 1) {valid += 'Please select the length of your trip in days.</br>';}
+	if (ptype = '' || ptype.length <= 1) {valid += 'Please select a trip type.</br>';}
+	if (uEnticed != 'http://') {valid += 'ERROR 100: You\'ve attempted an illegal action.</br>';}
+	if (nHap != '') {valid += 'ERROR 101: You\'ve attempted an illegal action.</br>';}
+	if (valid != '') {$('#update-submitResponse-fix').removeClass().addClass('plan-body-error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+    else {$('#update-submitResponse').html('<img src="../img/gif/loader-light.gif" class="plan-body-responseicon"/>').slideDown(20);										
+	  var updatePlanForm = $('#updatePlanForm').serialize();
+	  submitupdatePlan(updatePlanForm);
+    }
+  });
+  function submitupdatePlan(updatePlanForm) {
+    $.ajax({	
+	  type: 'POST',
+	  url: '../php/planupdate.php',		
+	  data: updatePlanForm,
+	  dataType: 'json',
+	  cache: false,
+      timeout: 16000,
+      success: function(data) { 
+	    var pdir = data.pdir;
+		$('#update-submitResponse-fix').removeClass().addClass((data.error === true) ? 'plan-body-error' : 'plan-body-success').html(data.msg).slideDown(200);	
+	    if ($('#update-submitResponse-fix').hasClass('plan-body-error')) {
+		  $('#update-submitResponse').hide();
+	    } 
+	    if ($('#update-submitResponse-fix').hasClass('plan-body-success')) {
+		  $('#update-submitResponse').hide();
+		  $('#update-submitResponse-fix').delay(1400).animate({height:'hide'}, 200);
+		  setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pdir);},0);
+	    } 
+	  },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {$('#update-submitResponse').hide(); $('#update-submitResponse-fix').removeClass().addClass('plan-body-error').html('There was an<strong> ' + errorThrown + '</strong> error due to a<strong> ' + textStatus + '</strong> condition.').fadeIn('fast');}
+    });	
+  };
+  
+  $('.itsbeenadded').hide();
+  $('.friends-unit-manage').hide();
+  $(".friends-unit").hover(function(){
+    var imgdir = $(this).attr("value");
+    $('.friends-unit-info').show();
+	$('#friend-unit-'+imgdir).hide();
+	$('.friends-unit-manage').hide();
+	$('#friend-manage-'+imgdir).show();
+//Unfriend
+    $('#removePlanFriend-'+imgdir).click(function(e) {
+	  e.preventDefault();
+      var valid = '';
+      var id = $('form #id').val();
+	  var uid = $('form #uid').val();
+	  var pid = $('form #pid').val();
+	  var uEnticed = $('form #uEnticed').val();
+	  var nHap = $('form #nHap').val();
+	  if (id = '') {$('#friendManage-response-'+imgdir).hide();}
+	  if (pid = '') {$('#friendManage-response-'+imgdir).hide();}
+	  if (uid = '') {$('#friendManage-response-'+imgdir).hide();}
+	  if (uEnticed != 'http://') {$('#friendManage-response-'+imgdir).hide();}
+	  if (nHap != '') {$('#friendManage-response-'+imgdir).hide();}
+	  if (valid != '') {$('#friendManage-response-'+imgdir).removeClass().addClass('error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+      else {
+		$('#friend-unit-'+imgdir).hide();
+		$('#friend-manage-'+imgdir).hide();
+		$('#friendManage-response-'+imgdir).html('<img src="../img/gif/loader-light.gif" class="user-message-responseicon"/>').slideDown(20);	
+		$('#friend-unit-'+imgdir).show();
+	    $('#friend-manage-'+imgdir).hide();								
+	    var RemovePlanForm = $('#RemovePlanForm-'+imgdir).serialize();
+	    submitRemovePlan(RemovePlanForm);
+      }
+    });
+    function submitRemovePlan(RemovePlanForm) {
+	  $.ajax({	
+	    type: 'POST',
+	    url: '../php/plandeny.php',		
+	    data: RemovePlanForm,
+	    dataType: 'json',
+	    cache: false,
+        timeout: 16000,
+        success: function(data) { 
+	      $('#friendManage-response-'+imgdir).removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).slideDown(200);;	
+	      if ($('#friendManage-response-'+imgdir).hasClass('error')) {
+	     
+	      } 
+	      if ($('#friendManage-response-'+imgdir).hasClass('success')) {
+	        $('#friend-'+imgdir).hide();
+	      } 
+	    },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {$('#friendManage-response-'+imgdir).hide();}
+      });	
+    };
+	
+	
+	$('#addPlanFriend-'+imgdir).click(function(e) {
+	  e.preventDefault();
+      var valid = '';
+      var id = $('form #id').val();
+	  var uid = $('form #uid').val();
+	  var pid = $('form #pid').val();
+	  var uEnticed = $('form #uEnticed').val();
+	  var nHap = $('form #nHap').val();
+	  if (id = '') {$('#friendManage-response-'+imgdir).hide();}
+	  if (pid = '') {$('#friendManage-response-'+imgdir).hide();}
+	  if (uid = '') {$('#friendManage-response-'+imgdir).hide();}
+	  if (uEnticed != 'http://') {$('#friendManage-response-'+imgdir).hide();}
+	  if (nHap != '') {$('#friendManage-response-'+imgdir).hide();}
+	  if (valid != '') {$('#friendManage-response-'+imgdir).removeClass().addClass('error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+      else {
+		$('#friend-unit-'+imgdir).hide();
+		$('#friend-manage-'+imgdir).hide();
+		$('#friendManage-response-'+imgdir).html('<img src="../img/gif/loader-light.gif" class="user-message-responseicon"/>').slideDown(20);	
+		$('#friend-unit-'+imgdir).show();
+	    $('#friend-manage-'+imgdir).hide();								
+	    var AddPlanForm = $('#AddPlanForm-'+imgdir).serialize();
+	    submitAddPlan(AddPlanForm);
+      }
+    });
+    function submitAddPlan(AddPlanForm) {
+	  $.ajax({	
+	    type: 'POST',
+	    url: '../php/planadd.php',		
+	    data: AddPlanForm,
+	    dataType: 'json',
+	    cache: false,
+        timeout: 16000,
+        success: function(data) { 
+	      $('#friendManage-response-'+imgdir).removeClass().addClass((data.error === true) ? 'error' : 'success').html(data.msg).slideDown(200);;	
+	      if ($('#friendManage-response-'+imgdir).hasClass('error')) {
+	     
+	      } 
+	      if ($('#friendManage-response-'+imgdir).hasClass('success')) {
+	        $('#friend-manage-'+imgdir).show();
+			$('#adderadd-'+imgdir).show();
+			$('#friend-unit-'+imgdir).hide();
+			$('#addPlanFriend-'+imgdir).hide();
+			$('#viewp-'+imgdir).hide();
+	      } 
+	    },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {$('#friendManage-response-'+imgdir).hide();}
+      });	
+    };	
+	return false;
+  },function(){
+  var imgdir = $(this).attr("value");
+  $('#friend-unit-'+imgdir).show();
+  $('#friend-manage-'+imgdir).hide();
+  return false;
+  });
+  //Go To Friends Profile
+  $(".friendManageBtn").click(function () {
+	var fdir = $(this).attr("user");
+    setTimeout(function(){window.location.assign("http://plandree.com/"+fdir);},0);
+  });
+
+  $('#addPlanNoteSubmit').click(function(e) {
+    $('#update-submitResponse-fix').slideUp(100);
+	e.preventDefault();
+    var valid = '';
+    var id = $('form #id').val();
+	var pid = $('form #pid').val();
+	var title = $('form #title').val();
+	var note = $('form #note').val();
+    var uEnticed = $('form #uEnticed').val();
+	var nHap = $('form #nHap').val();
+    if (id = '') {valid = 'Please Login</br>';}
+	if (pid = '') {valid += 'Please select a plan.</br>';}
+	if (title = '' || title.length <= 1) {valid += 'Please type a title.</br>';}
+	if (note = '' || note.length <= 1) {valid += 'Please type a note.<br>';}
+	if (uEnticed != 'http://') {valid += 'ERROR 100: You\'ve attempted an illegal action.</br>';}
+	if (nHap != '') {valid += 'ERROR 101: You\'ve attempted an illegal action.</br>';}
+	if (valid != '') {$('#update-submitResponse-fix').removeClass().addClass('plan-body-error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+    else {$('#update-submitResponse').html('<img src="../img/gif/loader-light.gif" class="plan-body-responseicon"/>').slideDown(20);										
+	  var addPlanPostForm = $('#addPlanPostForm').serialize();
+	  submitaddPlanPost(addPlanPostForm);
+    }
+  });
+  function submitaddPlanPost(addPlanPostForm) {
+    $.ajax({	
+	  type: 'POST',
+	  url: '../php/plannote.php',		
+	  data: addPlanPostForm,
+	  dataType: 'json',
+	  cache: false,
+      timeout: 16000,
+      success: function(data) { 
+        var pid = data.pid;
+		$('#update-submitResponse-fix').removeClass().addClass((data.error === true) ? 'plan-body-error' : 'plan-body-success').html(data.msg).slideDown(200);	
+	    if ($('#update-submitResponse-fix').hasClass('plan-body-error')) {
+		  $('#update-submitResponse').hide();
+	    } 
+	    if ($('#update-submitResponse-fix').hasClass('plan-body-success')) {
+		  $('#update-submitResponse').hide();
+		  $('#update-submitResponse-fix').delay(1400).animate({height:'hide'}, 200);
+		  setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pid);},0);
+	    } 
+	  },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {$('#update-submitResponse').hide(); $('#update-submitResponse-fix').removeClass().addClass('plan-body-error').html('There was an<strong> ' + errorThrown + '</strong> error due to a<strong> ' + textStatus + '</strong> condition.').fadeIn('fast');}
+    });	
+  };
+  
+  $('#updatePlanNoteSubmit').click(function(e) {
+    $('#update-submitResponse-fix').slideUp(100);
+	e.preventDefault();
+    var valid = '';
+    var id = $('form #id').val();
+	var pid = $('form #pid').val();
+	var pnid = $('form #pnid').val();
+	var title = $('form #title').val();
+	var note = $('form #note').val();
+    var uEnticed = $('form #uEnticed').val();
+	var nHap = $('form #nHap').val();
+    if (id = '') {valid = 'Please Login</br>';}
+	if (pid = '') {valid += 'Please select a plan.</br>';}
+	if (pnid = '') {valid += 'Please select a plan note.</br>';}
+	if (title = '' || title.length <= 1) {valid += 'Please type a title.</br>';}
+	if (note = '' || note.length <= 1) {valid += 'Please type a note.<br>';}
+	if (uEnticed != 'http://') {valid += 'ERROR 100: You\'ve attempted an illegal action.</br>';}
+	if (nHap != '') {valid += 'ERROR 101: You\'ve attempted an illegal action.</br>';}
+	if (valid != '') {$('#update-submitResponse-fix').removeClass().addClass('plan-body-error').html('<strong>Please correct errors</br></strong>' +valid).slideDown(100);}
+    else {$('#update-submitResponse').html('<img src="../img/gif/loader-light.gif" class="plan-body-responseicon"/>').slideDown(20);										
+	  var updatePlanPostForm = $('#updatePlanPostForm').serialize();
+	  submitupdatePlanPost(updatePlanPostForm);
+    }
+  });
+  function submitupdatePlanPost(updatePlanPostForm) {
+    $.ajax({	
+	  type: 'POST',
+	  url: '../php/planeditnote.php',		
+	  data: updatePlanPostForm,
+	  dataType: 'json',
+	  cache: false,
+      timeout: 16000,
+      success: function(data) { 
+        var pid = data.pid;
+		$('#update-submitResponse-fix').removeClass().addClass((data.error === true) ? 'plan-body-error' : 'plan-body-success').html(data.msg).slideDown(200);	
+	    if ($('#update-submitResponse-fix').hasClass('plan-body-error')) {
+		  $('#update-submitResponse').hide();
+	    } 
+	    if ($('#update-submitResponse-fix').hasClass('plan-body-success')) {
+		  $('#update-submitResponse').hide();
+		  $('#update-submitResponse-fix').delay(1400).animate({height:'hide'}, 200);
+		  setTimeout(function(){window.location.assign("http://plandree.com/planner/"+pid);},0);
+	    } 
+	  },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {$('#update-submitResponse').hide(); $('#update-submitResponse-fix').removeClass().addClass('plan-body-error').html('There was an<strong> ' + errorThrown + '</strong> error due to a<strong> ' + textStatus + '</strong> condition.').fadeIn('fast');}
+    });	
+  };
+});
