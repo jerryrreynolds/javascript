@@ -1,0 +1,139 @@
+//Open and close messages in trip daschboard
+$(document).ready(function () {
+  $("#all").hide(0);
+  $("#emMessage li").click(function () {
+	var pmid = (this.id);
+	$('#all').load('../php/getmessage.php?id='+pmid);
+	$("#emMessage li").removeClass();
+    $(this).removeClass('emMessage li').addClass('emMessageSelected');
+	$("#all").animate({ width: 'hide'}, 110);
+	$(this.hash).animate({ width: 'show'}, 110);
+    $("#all").delay(160).animate({ width: 'show'}, 140);
+  return false;
+  });
+});
+//Close messages in trip daschboard when someone clicks outside the message display.
+$(document).click(function(){
+  $("#all").animate({ width: 'hide'}, 100);
+  $("#emMessage li").removeClass('emMessageSelected');
+  });
+$("#all").click(function(e){e.stopPropagation();});
+//Open and close messages in trip daschboard
+$(document).ready(function () {
+  $("#hmail li").click(function () {
+    var nLoc = (this.id);
+    setTimeout(function(){window.location.assign("http://plandree.com/plan/"+nLoc);},0);
+  return false;
+  });
+});
+
+
+///////////////////////////////////////////////////////////////
+//////////////////////////Plan Sliders/////////////////////////
+///////////////////////////////////////////////////////////////
+//TimeLine Slider
+$(document).ready(function() {
+  var wheight = $('#sheight').val();
+  var dday = $('#dday').val();
+  var pid = $('#pid').val();
+  if (screen.width >= 1281) {
+    var sheight = (wheight*32-32);
+    $("#pbDays-slider").height(sheight);
+    $("#pbDays-unit li").click(function () {
+	  var did = this.id;
+	  setTimeout(function(){window.location.replace("./?p="+pid+"&d="+did);},100);
+    });
+  }
+  if (screen.width <= 1280) {
+    var sheight = (wheight*28-28);
+    $("#pbDays-slider").height(sheight);
+    $("#pbDays-unit li").click(function () {
+	  var did = this.id;
+	  setTimeout(function(){window.location.replace("./?p="+pid+"&d="+did);},100);
+    });
+  }
+});
+//TimeLine Time
+$(document).ready(function() {
+  if (screen.width >= 1281) {
+    $("#pbTimeline-pm").hide(0);
+    $(".pbTimeline-unit li").filter(".timeactive").hide().end().filter(".2").hover(function () {
+      $(".timeactive").slideUp(0);
+	  $("#pbTimeline-slider").slideDown(100).height(352);
+    },function(){
+	  $(this).nextUntil(".2", ".pbTimeline-unit li").slideDown(150);
+	  $("#pbTimeline-slider").slideDown(300).height(448);
+    });
+    $("#pbTimeline-slider").slideDown(100).height(352);
+    $("#pbBucket-unit li").draggable({containment:'document', cursor:'pointer', opacity:0.50, revert:true, revertduration:100});
+    $(".pbTimeline-unit li").stop().droppable({accept: "#gallery > li", hoverClass: 'dropactive', tolerance:'pointer', drop: Drop});
+    function Drop(event, ui){
+      var tile = ui.draggable.attr("id");
+      var $test = $($(this)).val();
+	    $($(this)).append(" "+tile).fadeIn();
+	    $(this).addClass('dropactive');
+	    $(this).removeClass('dropactive',200);
+    }
+  }
+  if (screen.width <= 1280) {
+    $("#pbTimeline-pm").hide(0);
+    $(".pbTimeline-unit li").filter(".timeactive").hide().end().filter(".2").hover(function () {
+      $(".timeactive").slideUp(0);
+	  $("#pbTimeline-slider").slideDown(100).height(308);
+    },function(){
+	  $(this).nextUntil(".2", ".pbTimeline-unit li").slideDown(150);
+	  $("#pbTimeline-slider").slideDown(300).height(392);
+    });
+    $("#pbTimeline-slider").slideDown(100).height(308);
+    $("#pbBucket-unit li").draggable({containment:'document', cursor:'pointer', opacity:0.50, revert:true, revertduration:100});
+    $(".pbTimeline-unit li").stop().droppable({accept: "#gallery > li", hoverClass: 'dropactive', tolerance:'pointer', drop: Drop});
+    function Drop(event, ui){
+      var tile = ui.draggable.attr("id");
+      var $test = $($(this)).val();
+	    $($(this)).append(" "+tile).fadeIn();
+	    $(this).addClass('dropactive');
+	    $(this).removeClass('dropactive',200);
+    }
+  }
+});
+//Create a plan
+$(document).ready(function () {
+  if (screen.width >= 1281) {
+  $(".pbTimelineaplist").hover(function(){$(this).toggleClass('pbTimelineapactive');});
+  $("#timePM").click(function () {
+    $("#timeAM").removeClass('pbTimelineapactive');
+	$("#pbTimeline-am").hide();
+	$("#pbTimeline-pm").slideDown(300);
+	$(".timeactive").slideUp(0);
+	$("#pbTimeline-slider").slideDown(100).height(352);
+	$("#timePM").toggleClass('pbTimelineapactive');
+  });
+  $("#timeAM").click(function () {
+    $("#timePM").removeClass('pbTimelineapactive');
+	$("#pbTimeline-pm").hide();
+	$("#pbTimeline-am").slideDown(300);
+	$(".timeactive").slideUp(0);
+	$("#pbTimeline-slider").slideDown(100).height(352);
+	$("#timeAM").toggleClass('pbTimelineapactive');
+  });
+  }
+  if (screen.width <= 1280) {
+  $(".pbTimelineaplist").hover(function(){$(this).toggleClass('pbTimelineapactive');});
+  $("#timePM").click(function () {
+    $("#timeAM").removeClass('pbTimelineapactive');
+	$("#pbTimeline-am").hide();
+	$("#pbTimeline-pm").slideDown(300);
+	$(".timeactive").slideUp(0);
+	$("#pbTimeline-slider").slideDown(100).height(308);
+	$("#timePM").toggleClass('pbTimelineapactive');
+  });
+  $("#timeAM").click(function () {
+    $("#timePM").removeClass('pbTimelineapactive');
+	$("#pbTimeline-pm").hide();
+	$("#pbTimeline-am").slideDown(300);
+	$(".timeactive").slideUp(0);
+	$("#pbTimeline-slider").slideDown(100).height(308);
+	$("#timeAM").toggleClass('pbTimelineapactive');
+  });
+  }
+});
