@@ -1,0 +1,249 @@
+$(document).ready(function () {
+//Load background Images
+  $("#s").queryLoader2({
+    barColor: "#09DAFF",
+    percentage: true,
+    barHeight: 6,
+    completeAnimation: "show",
+    minimumTime: 200
+  });
+  
+//Dark Theme
+//Go To Previous Space
+  $('#spaceinfo-main-back').hide();
+  $('#spaceinfo-img-forward').hide();
+  $('#spacemapform').hide();
+  $('#spaceimg-info-back').hide();
+  $('#spaceinfo-main-details').hide();
+  $("#snav-spacedetail").hover(function(){
+    $('#snav-spacedetail').removeClass('spdetail-prev').addClass('spdetail-prev-on');
+	return false;
+  },function(){
+	$('#snav-spacedetail').removeClass('spdetail-prev-on').addClass('spdetail-prev');
+	return false;
+  }).click(function () {
+	$('#spaceinfo').animate({width:'100%'}, 260);
+	$('#spaceinfo').animate({paddingLeft:'100px'}, 0);
+	$('#spaceinfo').animate({paddingRight:'100px'}, 0);
+	$('#spaceinfo-main-details').delay(260).animate({width:'show'}, 0); 
+	$('#spaceinfo-main-back').delay(260).animate({width:'show'}, 0);
+	$('#spaceinfo-img-forward').delay(260).animate({width:'show'}, 0);
+	$('#spaceimg-info-back').animate({width:'hide'}, 0);
+  });
+//Go To Next Space
+  $("#snav-morelist").hover(function(){
+	var island = $(this).attr("value");
+    $('#snav-morelist').removeClass('spdetail-next').addClass('spdetail-next-on');
+	return false;
+  },function(){
+	var island = $(this).attr("value");
+	$('#snav-morelist').removeClass('spdetail-next-on').addClass('spdetail-next');
+	return false;
+  }).click(function () {
+    var island = $(this).attr("value");
+	setTimeout(function(){window.location.assign("http://travelhawaii.co/"+island);},0);
+  });
+
+
+//Light Theme
+//Go To Previous Space
+  $("#snavl-spacedetail").hover(function(){
+    $('#snavl-spacedetail').removeClass('spdetaill-prev').addClass('spdetaill-prev-on');
+	return false;
+  },function(){
+	$('#snavl-spacedetail').removeClass('spdetaill-prev-on').addClass('spdetaill-prev');
+	return false;
+  }).click(function () {
+	$('#spaceinfo').animate({width:'100%'}, 260);
+	$('#spaceinfo').animate({paddingLeft:'100px'}, 0);
+	$('#spaceinfo').animate({paddingRight:'100px'}, 0);
+	$('#spaceinfo-main-details').delay(260).animate({width:'show'}, 0);  
+	$('#spaceinfo-main-back').delay(260).animate({width:'show'}, 0);
+	$('#spaceinfo-img-forward').delay(260).animate({width:'show'}, 0);
+	$('#spaceimg-info-back').animate({width:'hide'}, 0);
+  });
+//Go To Next Space
+  $("#snavl-morelist").hover(function(){
+    var island = $(this).attr("value");
+	$('#snavl-morelist').removeClass('spdetaill-next').addClass('spdetaill-next-on');
+	return false;
+  },function(){
+	var island = $(this).attr("value");
+	$('#snavl-morelist').removeClass('spdetaill-next-on').addClass('spdetaill-next');
+	return false;
+  }).click(function () {
+	var island = $(this).attr("value");
+	setTimeout(function(){window.location.assign("http://travelhawaii.co/"+island);},0);  
+  });
+  
+  
+  $("#spaceinfo-main").hover(function(){
+    $('#spaceinfo-main-back').removeClass('spaceinfo-main-go').addClass('spaceinfo-main-on');
+	return false;
+  },function(){
+	$('#spaceinfo-main-back').removeClass('spaceinfo-main-on').addClass('spaceinfo-main-go');
+	return false;
+  }).click(function () {
+	$('#spaceinfo-main-back').animate({width:'hide'}, 20);
+	$('#spaceinfo-img-forward').animate({width:'hide'}, 20);
+	$('#spaceinfo-main-details').animate({width:'hide'}, 20);
+	$('#spaceimg-info-back').animate({width:'hide'}, 0);
+	$('#spaceinfo').animate({paddingLeft:'0'}, 0);
+	$('#spaceinfo').animate({paddingRight:'0'}, 0); 
+	$('#spaceinfo').animate({width:'0'}, 260);
+  });
+  
+//Full Screen Slider
+//Close Info and Open Image  
+  $("#spaceinfo-img").hover(function(){
+    $('#spaceinfo-img-forward').removeClass('spaceinfo-img-go').addClass('spaceinfo-img-on');
+	return false;
+  },function(){
+	$('#spaceinfo-img-forward').removeClass('spaceinfo-img-on').addClass('spaceinfo-img-go');
+	return false;
+  }).click(function () {
+	var listing = $(this).attr("value");
+	$('#spaceinfo-main-back').animate({width:'hide'}, 20);
+	$('#spaceinfo-img-forward').animate({width:'hide'}, 20);
+	$('#spaceinfo-main-details').animate({width:'hide'}, 20);
+	$('#spaceinfo').animate({paddingLeft:'0'}, 0);
+	$('#spaceinfo').animate({paddingRight:'0'}, 0); 
+	$('#spaceinfo').animate({width:'0'}, 260);
+	$('#spaceimg').animate({width:'100%'}, 256);
+	$('#spaceimg').animate({paddingLeft:'100px'}, 0);
+	$('#spaceimg').animate({paddingRight:'100px'}, 0);  
+	$('#spaceimg-info-back').delay(260).animate({width:'show'}, 0);
+	$('#spaceimg-info-details').load('../php/loadimages.php?l='+listing).html('<img src="../img/gif/loader-blue.gif" class="detail-load"/>').animate({width:'show'}, 0);
+  });
+//Close Image and Open Info 
+  $("#spaceimg-info").hover(function(){
+    $('#spaceimg-info-back').removeClass('spaceimg-info-go').addClass('spaceimg-info-on');
+	return false;
+  },function(){
+	$('#spaceimg-info-back').removeClass('spaceimg-info-on').addClass('spaceimg-info-go');
+	return false;
+  }).click(function () {
+	$('#spaceimg-info-back').animate({width:'hide'}, 0);
+	$('#spaceimg').animate({paddingLeft:'0'}, 0);
+	$('#spaceimg').animate({paddingRight:'0'}, 0);  
+	$('#spaceno').hide(0);
+	$('#spaceimg').animate({width:'0'}, 260);
+	$('#spaceinfo').animate({width:'100%'}, 256);
+    $('#spaceinfo').animate({paddingLeft:'100px'}, 0);
+	$('#spaceinfo').animate({paddingRight:'100px'}, 0);  
+	$('#spaceinfo-main-back').delay(260).animate({width:'show'}, 0);
+	$('#spaceinfo-img-forward').delay(260).animate({width:'show'}, 0);
+	$('#spaceinfo-main-details').delay(260).animate({width:'show'}, 0); 
+  });
+  
+  $("#snav-mailspace").hover(function(){
+    $('#snav-mailspace').removeClass('spdetail-act-top').addClass('spdetail-act-top-on');
+	return false;
+  },function(){
+	$('#snav-mailspace').removeClass('spdetail-act-top-on').addClass('spdetail-act-top');
+	return false;
+  }).click(function () {
+	$('#spacecontact').animate({width:'100%'}, 260);
+	$('#spacecontact').animate({paddingLeft:'100px'}, 0);
+	$('#spacecontact').animate({paddingRight:'100px'}, 0);
+    $('#spacecontact-info-back').delay(260).animate({width:'show'}, 0);
+  });
+  //Close Info and Open Image  
+  $("#snav-viewspace").hover(function(){
+    $('#snav-viewspace').removeClass('spdetail-act-bot').addClass('spdetail-act-bot-on');
+	return false;
+  },function(){
+	$('#snav-viewspace').removeClass('spdetail-act-bot-on').addClass('spdetail-act-bot');
+	return false;
+  }).click(function () {
+	var listing = $(this).attr("lid");
+	$('#spaceimg').animate({width:'100%'}, 260);
+	$('#spaceimg').animate({paddingLeft:'100px'}, 0);
+	$('#spaceimg').animate({paddingRight:'100px'}, 0);  
+	$('#spaceimg-info-back').delay(260).animate({width:'show'}, 0);
+	$('#spaceimg-info-details').load('../php/loadimages.php?l='+listing).html('<img src="../img/gif/loader-blue.gif" class="detail-load"/>').animate({width:'show'}, 0);
+  });
+  
+  $("#snavl-mailspace").hover(function(){
+    $('#snavl-mailspace').removeClass('spdetaill-act-top').addClass('spdetaill-act-top-on');
+	return false;
+  },function(){
+	$('#snavl-mailspace').removeClass('spdetaill-act-top-on').addClass('spdetaill-act-top');
+	return false;
+  }).click(function () {
+	$('#spacecontact').animate({width:'100%'}, 260);
+	$('#spacecontact').animate({paddingLeft:'100px'}, 0);
+	$('#spacecontact').animate({paddingRight:'100px'}, 0);
+    $('#spacecontact-info-back').delay(260).animate({width:'show'}, 0);
+  });
+  //Close Info and Open Image  
+  $("#snavl-viewspace").hover(function(){
+    $('#snavl-viewspace').removeClass('spdetaill-act-bot').addClass('spdetaill-act-bot-on');
+	return false;
+  },function(){
+	$('#snavl-viewspace').removeClass('spdetaill-act-bot-on').addClass('spdetaill-act-bot');
+	return false;
+  }).click(function () {
+	var listing = $(this).attr("lid");
+	$('#spaceimg').animate({width:'100%'}, 260);
+	$('#spaceimg').animate({paddingLeft:'100px'}, 0);
+	$('#spaceimg').animate({paddingRight:'100px'}, 0);  
+	$('#spaceimg-info-back').delay(260).animate({width:'show'}, 0);
+	$('#spaceimg-info-details').load('../php/loadimages.php?l='+listing).html('<img src="../img/gif/loader-blue.gif" class="detail-load"/>').animate({width:'show'}, 0);
+  });
+  
+  //Close Info and Open Image  
+  $("#snavl-map").hover(function(){
+    $('#snavl-map').removeClass('spdetaill-act-bot').addClass('spdetaill-act-bot-on');
+	return false;
+  },function(){
+	$('#snavl-map').removeClass('spdetaill-act-bot-on').addClass('spdetaill-act-bot');
+	return false;
+  }).click(function () {
+	var listing = $(this).attr("lid");
+	$('#spacemap').animate({width:'100%'}, 260);
+	$('#spacemap').animate({paddingLeft:'100px'}, 0);
+	$('#spacemap').animate({paddingRight:'100px'}, 0); 
+	
+	$('#spacemap-info-back').delay(260).animate({width:'show'}, 0);
+	$('#spacemapform').delay(260).animate({width:'show'}, 0);
+  });
+
+  $("#spacecontact-info").hover(function(){
+    $('#spacecontact-info-back').removeClass('spacecontact-info-go').addClass('spacecontact-info-on');
+	return false;
+  },function(){
+	$('#spacecontact-info-back').removeClass('spacecontact-info-on').addClass('spacecontact-info-go');
+	return false;
+  }).click(function () {
+	$('#spacecontact-info-back').animate({width:'hide'}, 20);
+	$('#spacecontact').animate({paddingLeft:'0'}, 0);
+	$('#spacecontact').animate({paddingRight:'0'}, 0); 
+	$('#spacecontact').animate({width:'0'}, 260);
+  });
+  $("#inquireOwner").click(function () {
+	$('#spaceinfo-main-back').animate({width:'hide'}, 20);
+	$('#spaceinfo-img-forward').animate({width:'hide'}, 20);
+	$('#spaceinfo-main-details').animate({width:'hide'}, 20);
+	$('#spaceinfo').animate({paddingLeft:'0'}, 0);
+	$('#spaceinfo').animate({paddingRight:'0'}, 0); 
+	$('#spaceinfo').animate({width:'0'}, 260);
+	$('#spacecontact').animate({width:'100%'}, 260);
+	$('#spacecontact').animate({paddingLeft:'100px'}, 0);
+	$('#spacecontact').animate({paddingRight:'100px'}, 0);
+    $('#spacecontact-info-back').delay(260).animate({width:'show'}, 0);
+  });
+  
+  $("#spacemap-info").hover(function(){
+    $('#spacemap-info-back').removeClass('spacemap-info-go').addClass('spacemap-info-on');
+	return false;
+  },function(){
+	$('#spacemap-info-back').removeClass('spacemap-info-on').addClass('spacemap-info-go');
+	return false;
+  }).click(function () {
+	$('#spacemap-info-back').animate({width:'hide'}, 20);
+	$('#spacemap').animate({paddingLeft:'0'}, 0);
+	$('#spacemap').animate({paddingRight:'0'}, 0); 
+	$('#spacemap').animate({width:'0'}, 260);
+  });
+});
